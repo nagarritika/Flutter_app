@@ -1,56 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart'; // Add this import
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class LocationMapScreen extends StatefulWidget {
+class LocationScreen extends StatefulWidget {
+  // No 'const' here
+  const LocationScreen({super.key}); // Add 'const' only if no mutable state
+
   @override
-  _LocationMapScreenState createState() => _LocationMapScreenState();
+  _LocationScreenState createState() => _LocationScreenState();
 }
 
-class _LocationMapScreenState extends State<LocationMapScreen> {
-  GoogleMapController? _controller;
-  final Set<Marker> _markers = {};
-  final List<LatLng> _polylineCoordinates = [];
+class _LocationScreenState extends State<LocationScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _requestLocationPermission(); // Request location permission when the screen initializes
+  }
+
+  // Request location permission
+  Future<void> _requestLocationPermission() async {
+    PermissionStatus status = await Permission.location.request();
+
+    if (status.isGranted) {
+      print('Location permission granted');
+    } else if (status.isDenied) {
+      print('Location permission denied');
+    } else if (status.isPermanentlyDenied) {
+      print('Location permission permanently denied');
+      openAppSettings(); // This opens the app settings page
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Location Map")),
+      appBar: AppBar(title: const Text("Location Map")),
       body: GoogleMap(
-        initialCameraPosition: CameraPosition(
+        initialCameraPosition: const CameraPosition(
           target: LatLng(37.7749, -122.4194), // Example starting point
           zoom: 12,
         ),
-        markers: _markers,
-        polylines: {
-          Polyline(
-            polylineId: PolylineId("route"),
-            points: _polylineCoordinates,
-            color: Colors.blue,
-            width: 4,
-          ),
-        },
         onMapCreated: (controller) {
-          _controller = controller;
-          _loadMapData();
+          // You can handle map setup here
         },
-      ),
-      bottomSheet: Container(
-        color: Colors.white,
-        padding: EdgeInsets.all(16),
-        child: Text("Route Details: Start, Stop, Total KMs, Duration"),
       ),
     );
-  }
-
-  void _loadMapData() {
-    // Mock data for demonstration; replace with real location data
-    setState(() {
-      _markers.add(Marker(markerId: MarkerId("start"), position: LatLng(37.7749, -122.4194)));
-      _polylineCoordinates.addAll([
-        LatLng(37.7749, -122.4194),
-        LatLng(37.7849, -122.4294),
-        LatLng(37.7949, -122.4394),
-      ]);
-    });
   }
 }
