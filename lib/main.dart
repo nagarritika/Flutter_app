@@ -3,10 +3,12 @@ import 'attendance_screen.dart';
 import 'location_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,8 +16,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.blue),
       initialRoute: '/',
       routes: {
-        '/': (context) => AttendanceScreen(),
-        '/location': (context) => LocationScreen(),
+        '/': (context) => const AttendanceScreen(),
+        '/location': (context) => LocationScreen(), // No 'const' here
       },
     );
   }
