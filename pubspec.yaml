@@ -35,7 +35,7 @@ dependencies:
   provider: ^6.0.0
   http: ^1.2.2
   intl: ^0.18.0
-  permission_handler: ^10.2.0 # Check for the latest version
+  permission_handler: ^10.2.0 
 
 
 

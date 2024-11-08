@@ -3,10 +3,11 @@ import 'package:permission_handler/permission_handler.dart'; // Add this import
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class LocationScreen extends StatefulWidget {
-  // No 'const' here
-  const LocationScreen({super.key}); // Add 'const' only if no mutable state
+  const LocationScreen(
+      {super.key}); // Keep 'const' constructor for LocationScreen
 
   @override
+  // ignore: library_private_types_in_public_api
   _LocationScreenState createState() => _LocationScreenState();
 }
 
@@ -22,12 +23,15 @@ class _LocationScreenState extends State<LocationScreen> {
     PermissionStatus status = await Permission.location.request();
 
     if (status.isGranted) {
+      // ignore: avoid_print
       print('Location permission granted');
     } else if (status.isDenied) {
+      // ignore: avoid_print
       print('Location permission denied');
     } else if (status.isPermanentlyDenied) {
+      // ignore: avoid_print
       print('Location permission permanently denied');
-      openAppSettings(); // This opens the app settings page
+      openAppSettings(); // Optionally open app settings
     }
   }
 
@@ -41,7 +45,7 @@ class _LocationScreenState extends State<LocationScreen> {
           zoom: 12,
         ),
         onMapCreated: (controller) {
-          // You can handle map setup here
+          // Handle map creation here
         },
       ),
     );

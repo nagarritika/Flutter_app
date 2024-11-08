@@ -16,8 +16,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.blue),
       initialRoute: '/',
       routes: {
-        '/': (context) => const AttendanceScreen(),
-        '/location': (context) => LocationScreen(), // No 'const' here
+        '/': (context) => AttendanceScreen(), // No 'const' here
+        '/location': (context) =>
+            const LocationScreen(), // 'const' is fine here for LocationScreen
       },
     );
   }
